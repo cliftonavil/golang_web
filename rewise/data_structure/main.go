@@ -3,7 +3,16 @@ package main
 import "fmt"
 
 //struct struct
-type Hello struct {
+type person struct {
+	fname string //first small letter not availabe outside package
+	lname string
+	//Fname string   //first Capital letter availabe outside package
+	//Lname string
+}
+
+//function
+func (p person) speak() {
+	fmt.Println(p.fname, "Hello ***")
 }
 
 func main() {
@@ -23,4 +32,11 @@ func main() {
 	}
 	fmt.Println(age)
 	fmt.Println(age["Sunil"]) // using key get value
+
+	p1 := person{
+		"Clifton",
+		"Avil Dsouza",
+	}
+	fmt.Println(p1)
+	p1.speak() // function call
 }
