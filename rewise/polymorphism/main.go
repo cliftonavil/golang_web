@@ -20,6 +20,15 @@ func (sa secretAgent) speak() {
 	fmt.Println(sa.fname, sa.lname, "bye you might", sa.cankilll)
 }
 
+// polimorphism using interface
+type human interface {
+	speak()
+}
+
+func saysomething(h human) {
+	h.speak()
+}
+
 func main() {
 	pp := person{
 		"Clifton",
@@ -36,4 +45,8 @@ func main() {
 	}
 
 	sa1.speak()
+	//sa1.person.speak()
+
+	saysomething(pp) //call in interface
+	saysomething(sa1)
 }
