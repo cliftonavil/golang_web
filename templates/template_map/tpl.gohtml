@@ -1,0 +1,12 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>{{ .heading}}</title>
+</head>
+<body>
+<h1>Name List</h1>
+    {{ range $key, $value := .}}
+    <li>{{ $key }} - {{ $value }}</li>
+    {{ end }}
+</body>
+</html> 
