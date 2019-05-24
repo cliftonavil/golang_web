@@ -1,0 +1,17 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<h1>Name List</h1>
+{{range .Names }}
+    <li>{{ .Fname }} - {{ .Lname }}</li>
+{{end}}
+
+<h1>Car Makers list</h1>
+{{ range .Vehicles}}
+<li>Manufacturer : {{ .Maker}}  Model Name :{{ .Model}} Year : {{ .Year}} </li>
+{{ end }}
+</body>
+</html> 
