@@ -25,8 +25,8 @@ var fm = template.FuncMap{
 // 	return s
 // }
 func init() {
-	tpl = template.Must(template.New("").Funcs(fm).ParseFiles("tpl.gohtml"))
-	tpl = template.Must(template.New("").Funcs(fm).ParseFiles("tpl.gohtml"))
+	tpl = template.Must(template.New("tpl.gohtml").Funcs(fm).ParseFiles("tpl.gohtml"))
+	tpl = template.Must(template.New("tpl.gohtml").Funcs(fm).ParseFiles("tpl.gohtml"))
 	// tpl = template.Must(template.ParseFiles("tpl.gohtml"))
 }
 func main() {

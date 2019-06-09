@@ -6,7 +6,7 @@
 <body>
 <h1>Name List</h1>
 {{range . }}
-    <li>{{ .Fname }} - {{ .Lname }}</li>
+    <li>{{uc .Fname }} - {{ .Lname }}</li>
 {{end}}
 </body>
 </html> 
