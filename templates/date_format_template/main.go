@@ -12,9 +12,13 @@ var tpl *template.Template
 func fDMY(t time.Time) string {
 	return t.Format("02-01-2006")
 }
+func cHour(t time.Time) string {
+	return t.Format("3:04PM")
+}
 
 var fm = template.FuncMap{
-	"dmy": fDMY,
+	"dmy":   fDMY,
+	"cHour": cHour,
 }
 
 func init() {

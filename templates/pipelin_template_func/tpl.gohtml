@@ -1,0 +1,13 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<h1>Original Value : {{ .}} </h1>
+<h1>Double Value : {{ . | Fdouble}} </h1>
+<h1>Power of Value : {{ . |Fsquare}} </h1>
+<h1>Square Root Value : {{ .|FSquareRoot}} </h1>
+<h1>All Pipeline : {{ .| Fdouble | Fdouble | Fdouble}} </h1>
+</body>
+</html> 
