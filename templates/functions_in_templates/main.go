@@ -16,18 +16,16 @@ var tpl *template.Template
 
 var fm = template.FuncMap{
 	"uc": strings.ToUpper,
-	// "lc": firstThree,
+	"lc": firstThree,
 }
 
-// func firstThree(s string) string {
-// 	s = strings.TrimSpace(s)
-// 	s = s[:3]
-// 	return s
-// }
+func firstThree(s string) string {
+	s = strings.TrimSpace(s)
+	s = s[:3]
+	return s
+}
 func init() {
 	tpl = template.Must(template.New("tpl.gohtml").Funcs(fm).ParseFiles("tpl.gohtml"))
-	tpl = template.Must(template.New("tpl.gohtml").Funcs(fm).ParseFiles("tpl.gohtml"))
-	// tpl = template.Must(template.ParseFiles("tpl.gohtml"))
 }
 func main() {
 	name1 := NameList{
