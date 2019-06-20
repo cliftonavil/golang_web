@@ -1,0 +1,17 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Perdefined Global functions</title>
+</head>
+<body>
+{{ range .}}
+    <h1>Original Value : {{ . }} </h1>
+{{ end }} 
+
+{{ range .}}
+    {{ if .Admin }}
+        {{ .}}
+    {{ end }}
+{{ end }}
+</body>
+</html> 

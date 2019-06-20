@@ -14,7 +14,14 @@ var tpl *template.Template
 
 func main() {
 	Mvalue := []string{"One", "Two", "Three", "Four", "Five", "Six"}
-	err := tpl.Execute(os.Stdout, Mvalue)
+	data := struct {
+		Words []string
+		Lname string
+	}{
+		Mvalue,
+		"Clifton",
+	}
+	err := tpl.Execute(os.Stdout, data)
 	if err != nil {
 		log.Fatalln(err)
 	}
