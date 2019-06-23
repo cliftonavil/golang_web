@@ -1,0 +1,13 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Compare values in template</title>
+</head>
+<body>
+<h1>{{ .Name}}</h1>
+<h1>{{ .Age}}</h1>
+<h1>SomeMethod Value: {{ .SomeMethod}}</h1>
+<h1>Age Double Value: {{ .DoubleAge}}</h1>
+<h1>Add 200 to DoubleAge Value: {{ .DoubleAge| .Add }}</h1>
+</body>
+</html> 

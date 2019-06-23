@@ -1,0 +1,22 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Compare values in template</title>
+</head>
+<body>
+{{ if gt .Score1 .Score2 }}
+Score1 > Score2
+{{ end }}
+
+{{ if lt .Score1 .Score2 }}
+Score1 < Score2
+{{ end }}
+
+{{ if eq .Score1 .Score2 }}
+Score1 = Score2
+{{ end }}
+
+{{ if eq .Score1 2 }}
+Score1 = Score2
+{{ end }}
+</html> 
