@@ -9,7 +9,9 @@ import (
 
 func main() {
 	http.HandleFunc("/", img1)
-	http.HandleFunc("/swiming.jpeg", img2)
+	// http.HandleFunc("/swiming.jpeg", img2)
+	http.HandleFunc("/swiming.jpeg", servefile) // servefile
+	http.Handle("/fileserver", http.FileServer(http.Dir(".")))
 	servererror := http.ListenAndServe(":8080", nil)
 	if servererror != nil {
 		log.Fatal("ListenAndServe:", servererror)
@@ -34,4 +36,7 @@ func img2(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.ServeContent(w, r, f.Name(), fi.ModTime(), f)
+}
+func servefile(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "swiming.jpeg")
 }
