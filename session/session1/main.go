@@ -20,7 +20,7 @@ var dbUsers = map[string]user{}     //user ID, user
 var dbSession = map[string]string{} // Session ID user ID
 
 func init() {
-	tpl = template.Must(template.ParseGlob("template/"))
+	tpl = template.Must(template.ParseGlob("template/*"))
 }
 
 func main() {
