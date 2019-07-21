@@ -1,16 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 
 	uuid "github.com/satori/go.uuid"
 )
 
 type user struct {
 	Username string
-	Password string
+	Password []byte
 	Fname    string
 	Lname    string
 }
@@ -78,8 +81,13 @@ func signup(w http.ResponseWriter, req *http.Request) {
 		http.SetCookie(w, c)
 		dbSession[c.Value] = un
 
+		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)
+		if err != nil {
+			http.Error(w, "Internal Server Error!!", http.StatusInternalServerError)
+		}
+		fmt.Println("bs", bs)
 		// store user in dbUsers
-		u := user{un, p, f, l}
+		u := user{un, bs, f, l}
 		dbUsers[un] = u
 
 		// redirect
