@@ -24,12 +24,16 @@ var dbSession = map[string]string{} // Session ID user ID
 
 func init() {
 	tpl = template.Must(template.ParseGlob("template/*"))
+	bs, _ := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.MinCost)
+	dbUsers["cliftonavil@gmail.com"] = user{"cliftonavil@gmail.com", bs, "Clifton", "Avil"}
 }
 
 func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/display", display)
 	http.HandleFunc("/signup", signup)
+	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	servererror := http.ListenAndServe(":8080", nil)
 	if servererror != nil {
@@ -96,4 +100,60 @@ func signup(w http.ResponseWriter, req *http.Request) {
 	}
 
 	tpl.ExecuteTemplate(w, "signup.html", nil)
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Inside")
+	if !alreadyLoggedIn(r) {
+		fmt.Println("error")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	if r.Method == http.MethodPost {
+		un := r.FormValue("username")
+		p := r.FormValue("password")
+		// check user registered!!!
+		u, ok := dbUsers[un]
+		if !ok {
+			http.Error(w, "Username does not exisits!!", http.StatusForbidden)
+			return
+		}
+		// Check password matches
+		err := bcrypt.CompareHashAndPassword(u.Password, []byte(p))
+		if err != nil {
+			http.Error(w, "Password do not match", http.StatusForbidden)
+			return
+		}
+		// create session
+		sID, _ := uuid.NewV4()
+		c := &http.Cookie{
+			Name:  "session",
+			Value: sID.String(),
+		}
+		http.SetCookie(w, c)
+		dbSession[c.Value] = un
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	tpl.ExecuteTemplate(w, "login.html", nil)
+}
+
+func logout(w http.ResponseWriter, r *http.Request) {
+	if !alreadyLoggedIn(r) {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	c, _ := r.Cookie("session")
+	// delete the session
+	delete(dbSession, c.Value)
+	// remove the cookie
+	c = &http.Cookie{
+		Name:   "session",
+		Value:  "",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, c)
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
