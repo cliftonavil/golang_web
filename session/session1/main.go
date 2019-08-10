@@ -16,6 +16,7 @@ type user struct {
 	Password []byte
 	Fname    string
 	Lname    string
+	Role     string
 }
 
 var tpl *template.Template
@@ -25,7 +26,7 @@ var dbSession = map[string]string{} // Session ID user ID
 func init() {
 	tpl = template.Must(template.ParseGlob("template/*"))
 	bs, _ := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.MinCost)
-	dbUsers["cliftonavil@gmail.com"] = user{"cliftonavil@gmail.com", bs, "Clifton", "Avil"}
+	dbUsers["cliftonavil@gmail.com"] = user{"cliftonavil@gmail.com", bs, "Clifton", "Avil", "user"}
 }
 
 func main() {
@@ -52,6 +53,10 @@ func display(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
 	}
+	if u.Role != "admin" {
+		http.Error(w, "Only Admin has Rights!!!", http.StatusForbidden)
+		return
+	}
 	tpl.ExecuteTemplate(w, "display.html", u)
 }
 
@@ -69,6 +74,7 @@ func signup(w http.ResponseWriter, req *http.Request) {
 		p := req.FormValue("password")
 		f := req.FormValue("firstname")
 		l := req.FormValue("lastname")
+		role := req.FormValue("role")
 
 		// username taken?
 		if _, ok := dbUsers[un]; ok {
@@ -89,9 +95,9 @@ func signup(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			http.Error(w, "Internal Server Error!!", http.StatusInternalServerError)
 		}
-		fmt.Println("bs", bs)
+
 		// store user in dbUsers
-		u := user{un, bs, f, l}
+		u := user{un, bs, f, l, role}
 		dbUsers[un] = u
 
 		// redirect
@@ -103,12 +109,12 @@ func signup(w http.ResponseWriter, req *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Inside")
-	if !alreadyLoggedIn(r) {
-		fmt.Println("error")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		return
-	}
+	// fmt.Println("Inside")
+	// if !alreadyLoggedIn(r) {
+	// 	fmt.Println("error")
+	// 	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// 	return
+	// }
 
 	if r.Method == http.MethodPost {
 		un := r.FormValue("username")
