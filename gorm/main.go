@@ -44,7 +44,7 @@ type Owner struct {
 	gorm.Model
 	FirstName string
 	LastName  string
-	// Books     []Book
+	Books     []Book
 }
 
 type Book struct {
