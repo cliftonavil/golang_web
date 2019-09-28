@@ -11,6 +11,7 @@ type Response struct {
 	InternetProvider string `json:"org"`
 	City             string `json:"city"`
 	State            string `json:"region"`
+	IP               string `json:"ip"`
 }
 
 func ExternalIP() string {
@@ -30,8 +31,9 @@ func main() {
 	data, _ := ioutil.ReadAll(response.Body)
 	var responseObject Response
 	json.Unmarshal(data, &responseObject)
+	fmt.Println("IP Address :", responseObject.IP)
+	fmt.Println("InternetProvider :", responseObject.InternetProvider)
 	fmt.Println("City :", responseObject.City)
 	fmt.Println("State :", responseObject.State)
-	fmt.Println("InternetProvider :", responseObject.InternetProvider)
 
 }
