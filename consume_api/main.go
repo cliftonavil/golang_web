@@ -1,10 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
+
+type Response struct {
+	InternetProvider string `json:"org"`
+	City             string `json:"city"`
+	State            string `json:"region"`
+}
 
 func ExternalIP() string {
 	response, err := http.Get("https://myexternalip.com/raw")
@@ -16,12 +23,15 @@ func ExternalIP() string {
 }
 
 func main() {
-	fmt.Println(ExternalIP())
-
-	response, err := http.Get("https://tools.keycdn.com/geo.json?host=" + ExternalIP())
+	response, err := http.Get("https://ipapi.co/" + ExternalIP() + "/json/")
 	if err != nil {
 		fmt.Printf("The HTTP request failed with error %s\n", err)
 	}
 	data, _ := ioutil.ReadAll(response.Body)
-	fmt.Println(string(data))
+	var responseObject Response
+	json.Unmarshal(data, &responseObject)
+	fmt.Println("City :", responseObject.City)
+	fmt.Println("State :", responseObject.State)
+	fmt.Println("InternetProvider :", responseObject.InternetProvider)
+
 }
