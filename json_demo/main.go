@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -23,23 +22,7 @@ type windData struct {
 	Speed     int    `json:speed`
 }
 
-type loc struct {
-	Lat float32 `json:lat`
-	Log float32 `json:log`
-}
-
 func weatherHandler(w http.ResponseWriter, r *http.Request) {
-	location := loc{}
-	jsn, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Fatal("Something wrong ", err)
-	}
-	err = json.Unmarshal(jsn, &location)
-	if err != nil {
-		log.Fatal("Decodeing error", err)
-	}
-
-	log.Println("Recived Data", location)
 	weather := weatherData{
 		LocationName: "Bangalore",
 		Weather:      "CLoudy",
@@ -55,8 +38,11 @@ func weatherHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Some Error", err)
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(weatherJson)
 }
 
 func main() {
-
+	http.HandleFunc("/", weatherHandler)
+	http.ListenAndServe(":8000", nil)
 }
