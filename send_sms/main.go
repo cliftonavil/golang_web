@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// getRandNum returns a random number of size four
+// OtpContent returns a random number of size four
 func OtpContent() string {
 	nBig, e := rand.Int(rand.Reader, big.NewInt(8999))
 	if e != nil {
