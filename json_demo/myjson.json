@@ -1,0 +1,11 @@
+{
+    "location":"Bangalore",
+    "weather":"sunny",
+    "temperature":30,
+    "celcius":true,
+    "temp_forecast":[24,23,27],
+    "wind":{
+        "direction":"NW",
+        "speed":15
+    }
+}
